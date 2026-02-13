@@ -10,10 +10,10 @@ window.QUESTIONS = [
     fields: [
       { id: "LE-1", label: "LE-1" },
       { id: "LE-2", label: "LE-2" },
-      { id: "Relay-4M", label: "Relay-4M" }
-      { id: "Relay-F1", label: "Relay-F1" }
-      { id: "Relay-2", label: "Relay-2" }
-      { id: "Relay-F2", label: "Relay-F2" }
+      { id: "Relay-4M", label: "Relay-4M" },
+      { id: "Relay-F1", label: "Relay-F1" },
+      { id: "Relay-2", label: "Relay-2" },
+      { id: "Relay-F2", label: "Relay-F2" },
       { id: "Gateway", label: "Gateway" }
 
     ],
