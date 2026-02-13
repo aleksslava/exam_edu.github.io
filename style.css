@@ -121,9 +121,17 @@ body{
   min-width: 0;
 }
 
+.fieldControl{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  width: 160px;
+  max-width: 48%;
+}
+
 .fieldInput{
-  width: 140px;
-  max-width: 45%;
+  width: 100%;
   padding: 10px 10px;
   font-size: 16px;
   border-radius: 10px;
@@ -135,6 +143,23 @@ body{
 
 .fieldInput:focus{
   border-color: rgba(43,104,255,.65);
+}
+
+.fieldClear{
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  border: 1px solid var(--stroke);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.fieldClear:active{
+  transform: scale(.96);
 }
 
 .footer{

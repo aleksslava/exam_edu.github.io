@@ -58,6 +58,11 @@ function allFieldsValid(q) {
   return q.fields.every(f => Number.isFinite(answers[q.id][f.id]));
 }
 
+function getVisibleFieldCount(q) {
+  const firstEmptyIndex = q.fields.findIndex(f => !Number.isFinite(answers[q.id][f.id]));
+  return firstEmptyIndex === -1 ? q.fields.length : firstEmptyIndex + 1;
+}
+
 function buildFieldRow(q, f) {
   const row = document.createElement("div");
   row.className = "fieldRow";
@@ -65,6 +70,9 @@ function buildFieldRow(q, f) {
   const label = document.createElement("div");
   label.className = "fieldLabel";
   label.textContent = `${f.label} —`;
+
+  const control = document.createElement("div");
+  control.className = "fieldControl";
 
   const input = document.createElement("input");
   input.className = "fieldInput";
@@ -75,25 +83,60 @@ function buildFieldRow(q, f) {
   const current = answers[q.id][f.id];
   input.value = Number.isFinite(current) ? String(current) : "";
 
+  const clearBtn = document.createElement("button");
+  clearBtn.className = "fieldClear";
+  clearBtn.type = "button";
+  clearBtn.setAttribute("aria-label", `Очистить поле ${f.label}`);
+  clearBtn.textContent = "×";
+  clearBtn.hidden = !Number.isFinite(current);
+
   input.addEventListener("input", () => {
+    const visibleBefore = getVisibleFieldCount(q);
     const raw = input.value.trim();
 
     if (raw === "") {
-      delete answers[q.id][f.id];
-    } else {
-      const n = Number(raw);
-      if (Number.isFinite(n)) {
-        answers[q.id][f.id] = n;
-      } else {
-        delete answers[q.id][f.id];
+      answers[q.id][f.id] = 0;
+      input.value = "0";
+      clearBtn.hidden = false;
+      const visibleAfterEmpty = getVisibleFieldCount(q);
+      if (visibleAfterEmpty !== visibleBefore) {
+        render();
+        return;
       }
+      updateButtonState();
+      return;
     }
 
+    const n = Number(raw);
+    if (Number.isFinite(n)) {
+      answers[q.id][f.id] = n;
+    } else {
+      answers[q.id][f.id] = 0;
+      input.value = "0";
+    }
+
+    const visibleAfter = getVisibleFieldCount(q);
+    if (visibleAfter !== visibleBefore) {
+      render();
+      return;
+    }
+
+    clearBtn.hidden = !Number.isFinite(answers[q.id][f.id]);
     updateButtonState();
   });
 
+  clearBtn.addEventListener("click", () => {
+    answers[q.id][f.id] = 0;
+    input.value = "0";
+    clearBtn.hidden = false;
+    updateButtonState();
+  });
+
+  control.appendChild(input);
+  control.appendChild(clearBtn);
+
   row.appendChild(label);
-  row.appendChild(input);
+  row.appendChild(control);
   return row;
 }
 
@@ -118,7 +161,10 @@ function render() {
   elQuestionText.textContent = q.questionText;
 
   elFields.innerHTML = "";
-  q.fields.forEach(f => elFields.appendChild(buildFieldRow(q, f)));
+  const visibleFieldCount = getVisibleFieldCount(q);
+  q.fields
+    .slice(0, visibleFieldCount)
+    .forEach(f => elFields.appendChild(buildFieldRow(q, f)));
 
   elNextBtn.textContent = isLast ? "Отправить ответы" : "Далее";
 
