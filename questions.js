@@ -16,7 +16,6 @@ window.QUESTIONS = [
       { id: "Relay-2", label: "Relay-2" },
       { id: "Relay-F2", label: "Relay-F2" },
       { id: "Gateway", label: "Gateway" }
-
     ],
   },
   {
