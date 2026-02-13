@@ -24,6 +24,24 @@ const elQuestionText = document.getElementById("questionText");
 const elFields = document.getElementById("fields");
 const elNextBtn = document.getElementById("nextBtn");
 const elHint = document.getElementById("hint");
+const elLightbox = document.getElementById("lightbox");
+const elLightboxImage = document.getElementById("lightboxImage");
+const elLightboxClose = document.getElementById("lightboxClose");
+
+function openLightbox(src, altText = "") {
+  if (!src || !elLightbox || !elLightboxImage) return;
+  elLightboxImage.src = src;
+  elLightboxImage.alt = altText;
+  elLightbox.classList.add("open");
+  elLightbox.setAttribute("aria-hidden", "false");
+}
+
+function closeLightbox() {
+  if (!elLightbox || !elLightboxImage) return;
+  elLightbox.classList.remove("open");
+  elLightbox.setAttribute("aria-hidden", "true");
+  elLightboxImage.src = "";
+}
 
 function allFieldsValid(q) {
   return q.fields.every(f => Number.isFinite(answers[q.id][f.id]));
@@ -84,6 +102,7 @@ function render() {
 
   elTaskText.textContent = q.taskText;
   elTaskImage.src = q.image;
+  elTaskImage.alt = `Изображение задачи ${index + 1}`;
 
   elQuestionText.textContent = q.questionText;
 
@@ -131,5 +150,22 @@ function nextOrSubmit() {
 }
 
 elNextBtn.addEventListener("click", nextOrSubmit);
+elTaskImage.addEventListener("click", () => {
+  openLightbox(elTaskImage.src, elTaskImage.alt || "Увеличенное изображение задачи");
+});
+
+elLightboxClose?.addEventListener("click", closeLightbox);
+
+elLightbox?.addEventListener("click", (event) => {
+  if (event.target === elLightbox) {
+    closeLightbox();
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && elLightbox?.classList.contains("open")) {
+    closeLightbox();
+  }
+});
 
 render();
