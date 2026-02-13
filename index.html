@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Тест</title>
+
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Telegram WebApp SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+  <main class="app">
+    <header class="top">
+      <div class="progress" id="progress"></div>
+    </header>
+
+    <!-- 1) Текст задачи -->
+    <section class="card">
+      <div class="taskText" id="taskText"></div>
+    </section>
+
+    <!-- 2) Изображение задачи -->
+    <section class="card">
+      <img class="taskImage" id="taskImage" alt="Изображение задачи" />
+    </section>
+
+    <!-- 3) Вопрос -->
+    <section class="card">
+      <div class="questionText" id="questionText"></div>
+    </section>
+
+    <!-- 4) Поля -->
+    <section class="card">
+      <div class="fields" id="fields"></div>
+    </section>
+
+    <!-- Низ -->
+    <footer class="footer">
+      <button class="btn" id="nextBtn" type="button" disabled>Далее</button>
+      <div class="hint" id="hint"></div>
+    </footer>
+  </main>
+
+  <script src="questions.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
