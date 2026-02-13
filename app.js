@@ -1,8 +1,19 @@
 const tg = window.Telegram?.WebApp;
 
+function syncThemeWithTelegram() {
+  const scheme = tg?.colorScheme;
+  if (scheme === "light" || scheme === "dark") {
+    document.documentElement.setAttribute("data-theme", scheme);
+  } else {
+    document.documentElement.removeAttribute("data-theme");
+  }
+}
+
 try {
   tg?.ready();
   tg?.expand();
+  syncThemeWithTelegram();
+  tg?.onEvent?.("themeChanged", syncThemeWithTelegram);
 } catch (_) {
   // Открыто не из Telegram — это ок для теста в браузере
 }

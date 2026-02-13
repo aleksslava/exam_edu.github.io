@@ -1,11 +1,46 @@
 :root{
+  --bg: #f4f7fb;
+  --card: #ffffff;
+  --text: #0f1d2e;
+  --muted: rgba(15,29,46,.65);
+  --stroke: rgba(15,29,46,.14);
+  --btn: #2b68ff;
+  --btnDisabled: rgba(43,104,255,.4);
+  --fieldBg: #f6f8fc;
+  --footerFrom: rgba(244,247,251,0);
+  --footerMid: rgba(244,247,251,.92);
+  --footerTo: rgba(244,247,251,1);
+  --lightboxBg: rgba(0,0,0,.84);
+  --lightboxCloseBorder: rgba(255,255,255,.35);
+  --lightboxCloseBg: rgba(0,0,0,.35);
+}
+
+:root[data-theme="dark"]{
   --bg: #0b0f14;
   --card: #111826;
   --text: #e7eef7;
   --muted: rgba(231,238,247,.7);
   --stroke: rgba(231,238,247,.12);
-  --btn: #2b68ff;
   --btnDisabled: rgba(43,104,255,.35);
+  --fieldBg: rgba(255,255,255,.04);
+  --footerFrom: rgba(11,15,20,0);
+  --footerMid: rgba(11,15,20,.9);
+  --footerTo: rgba(11,15,20,1);
+}
+
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme]){
+    --bg: #0b0f14;
+    --card: #111826;
+    --text: #e7eef7;
+    --muted: rgba(231,238,247,.7);
+    --stroke: rgba(231,238,247,.12);
+    --btnDisabled: rgba(43,104,255,.35);
+    --fieldBg: rgba(255,255,255,.04);
+    --footerFrom: rgba(11,15,20,0);
+    --footerMid: rgba(11,15,20,.9);
+    --footerTo: rgba(11,15,20,1);
+  }
 }
 
 *{ box-sizing: border-box; }
@@ -93,7 +128,7 @@ body{
   font-size: 16px;
   border-radius: 10px;
   border: 1px solid var(--stroke);
-  background: rgba(255,255,255,.04);
+  background: var(--fieldBg);
   color: var(--text);
   outline: none;
 }
@@ -106,7 +141,7 @@ body{
   position: sticky;
   bottom: 0;
   padding-top: 10px;
-  background: linear-gradient(180deg, rgba(11,15,20,0) 0%, rgba(11,15,20,.9) 20%, rgba(11,15,20,1) 100%);
+  background: linear-gradient(180deg, var(--footerFrom) 0%, var(--footerMid) 20%, var(--footerTo) 100%);
 }
 
 .btn{
@@ -138,7 +173,7 @@ body{
   align-items: center;
   justify-content: center;
   padding: 20px;
-  background: rgba(0,0,0,.84);
+  background: var(--lightboxBg);
   z-index: 1000;
 }
 
@@ -161,11 +196,11 @@ body{
   right: 14px;
   width: 42px;
   height: 42px;
-  border: 1px solid rgba(255,255,255,.35);
+  border: 1px solid var(--lightboxCloseBorder);
   border-radius: 50%;
   font-size: 26px;
   line-height: 1;
   color: #fff;
-  background: rgba(0,0,0,.35);
+  background: var(--lightboxCloseBg);
   cursor: pointer;
 }
