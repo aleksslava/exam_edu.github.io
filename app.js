@@ -117,7 +117,8 @@ function buildFieldRow(q, f) {
 
     const visibleAfter = getVisibleFieldCount(q);
     if (visibleAfter !== visibleBefore) {
-      render();
+      const nextField = visibleAfter > visibleBefore ? q.fields[visibleBefore] : null;
+      render({ focusFieldId: nextField?.id ?? null });
       return;
     }
 
@@ -148,7 +149,8 @@ function updateButtonState() {
   elHint.textContent = ok ? "" : "Заполните все поля цифрами, чтобы продолжить.";
 }
 
-function render() {
+function render(options = {}) {
+  const { focusFieldId = null } = options;
   const q = QUESTIONS[index];
   const isLast = index === QUESTIONS.length - 1;
 
@@ -165,6 +167,15 @@ function render() {
   q.fields
     .slice(0, visibleFieldCount)
     .forEach(f => elFields.appendChild(buildFieldRow(q, f)));
+
+  if (focusFieldId) {
+    const focusIndex = q.fields.findIndex(f => f.id === focusFieldId);
+    if (focusIndex >= 0 && focusIndex < visibleFieldCount) {
+      const inputToFocus = elFields.querySelectorAll(".fieldInput")[focusIndex];
+      inputToFocus?.focus();
+      inputToFocus?.select?.();
+    }
+  }
 
   elNextBtn.textContent = isLast ? "Отправить ответы" : "Далее";
 
